@@ -6,6 +6,8 @@ import (
 	"log"
 	"net/http"
 	"net/http/httputil"
+	"path"
+	"strconv"
 
 	"github.com/kazuhe/bookmarks/data"
 )
@@ -33,8 +35,8 @@ func handleRequest(w http.ResponseWriter, r *http.Request) {
 
 	// リクエストメソッドに応じてそれぞれのCRUD関数に作業を振り分ける
 	switch r.Method {
-	// case "GET":
-	// 	err = handleGet(w, r)
+	case "GET":
+		err = handleGet(w, r)
 	case "POST":
 		err = handlePost(w, r)
 		// case "PUT":
@@ -51,7 +53,33 @@ func handleRequest(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// handlePost POSTリクエストに応じて投稿を作成する関数
+// handleGet GETリクエストに応じてユーザーを返す関数
+func handleGet(w http.ResponseWriter, r *http.Request) (err error) {
+	// URLのパスを抽出
+	id, err := strconv.Atoi(path.Base(r.URL.Path))
+	if err != nil {
+		return
+	}
+
+	// メソッドRetriveでidを元にDBの値を取得して構造体Userを作成
+	user, err := data.Retrive(id)
+	if err != nil {
+		return
+	}
+
+	// 構造体UserをJSONフォーマットのバイト列に変換
+	output, err := json.MarshalIndent(&user, "", "\t")
+	if err != nil {
+		return
+	}
+
+	// バイト列をResponseWriterに書き出す
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(output)
+	return
+}
+
+// handlePost POSTリクエストに応じてユーザーを作成する関数
 func handlePost(w http.ResponseWriter, r *http.Request) (err error) {
 	// コンテンツの長さをサイズとしたバイト列を作成
 	len := r.ContentLength

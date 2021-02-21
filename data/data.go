@@ -77,3 +77,11 @@ func (user *User) Create() (err error) {
 	err = stmt.QueryRow(createUUID(), user.Name, user.Email, Encrypt(user.Password), time.Now()).Scan(&user.ID, &user.UUID, &user.CreatedAt)
 	return
 }
+
+// Retrive IDを元にDBから1件のUserを取得
+func Retrive(id int) (user User, err error) {
+	user = User{}
+	// SQLのselectコマンドを使って取得したデータ（id, content, author）をpostに参照渡し
+	err = DB.QueryRow("select id, uuid, name, email, password, created_at from users where id = $1", id).Scan(&user.ID, &user.UUID, &user.Name, &user.Email, &user.Password, &user.CreatedAt)
+	return
+}
