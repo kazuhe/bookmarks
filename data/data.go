@@ -14,12 +14,12 @@ import (
 
 // User ユーザーを表す構造体
 type User struct {
-	ID        int
-	UUID      string
-	Name      string
-	Email     string
-	Password  string
-	CreatedAt time.Time
+	ID        int       `json:"id"`
+	UUID      string    `json:"uuid"`
+	Name      string    `json:"name"`
+	Email     string    `json:"email"`
+	Password  string    `json:"password"`
+	CreatedAt time.Time `json:"created_at"`
 }
 
 // DB データベースへのハンドルであり、データベース接続のプールを表す
@@ -36,7 +36,7 @@ func init() {
 	}
 }
 
-// create a random UUID with from RFC 4122
+// createUUID "RFC4122"に基づくUUIDを作成
 // adapted from http://github.com/nu7hatch/gouuid
 func createUUID() (uuid string) {
 	u := new([16]byte)
@@ -54,7 +54,7 @@ func createUUID() (uuid string) {
 	return
 }
 
-// hash plaintext with SHA-1
+// Encrypt "SHA-1"を使用して160ビットのハッシュ値を生成
 func Encrypt(plaintext string) (cryptext string) {
 	cryptext = fmt.Sprintf("%x", sha1.Sum([]byte(plaintext)))
 	return
