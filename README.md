@@ -50,7 +50,7 @@ $ curl -i -X GET http://0.0.0.0:8080/users/1
 DB設計（整備中）
 
 ### 正規化したテーブル
-「※」印を持つテーブルを「キー」とする。
+「※」印を持つテーブルを「主キー」とする。
 
 __▼ ユーザー__
 | ※ユーザーID | メールアドレス | パスワード | 登録日 | Twitterアカウント情報 | 公開/非公開設定 |
@@ -59,13 +59,13 @@ __▼ ユーザー__
 | betty | betty@example.com | 789b49606c321c8cf228d17942608eff0ccc4171 | 2021-02-21 12:06:20.9751 | @kazuhe__ | false |
 
 __▼ ブックマーク__
-| ※ユーザーID | ※ブックマークID | URL | コメント | タグID | あとで読むフラグ |
-| --- | --- | --- | --- | --- | --- |
-| kazuhe | 1 | http://example1.com | コメント | T1 | true |
-| kazuhe | 2 | http://example2.com | コメント | T1 | false |
-| kazuhe | 2 | http://example2.com | | T2 | false |
-| betty | 1 | http://example3.com | コメント | T1 | true |
-| betty | 2 | http://example4.com | | T1 | true |
+| ※ユーザーID | ※ブックマークID | URL | コメント | あとで読むフラグ |
+| --- | --- | --- | --- | --- |
+| kazuhe | B1 | http://example1.com | コメント | true |
+| kazuhe | B2 | http://example2.com | コメント | false |
+| kazuhe | B2 | http://example2.com | | false |
+| betty | B1 | http://example3.com | コメント | true |
+| betty | B2 | http://example4.com | | true |
 
 __▼ タグ__
 | ※ユーザーID | ※タグID | タグ |
@@ -74,5 +74,14 @@ __▼ タグ__
 | kazuhe | T2 | life |
 | betty | T1 | life |
 
+__▼ ブックマークタグ__
+| ※ユーザーID | ※タグID | ※ブックマークID |
+| --- | --- | --- |
+| kazuhe | T1 | B1 |
+| kazuhe | T1 | B2 |
+| kazuhe | T2 | B2 |
+| betty | T1 | B1 |
+| betty | T1 | B2 |
+
 ### ER図
-![Screen Shot 2021-02-24 at 23 32 48](https://user-images.githubusercontent.com/57878514/109015610-a6f56880-76f8-11eb-8416-62fff70985fb.png)
+![Bookmarks ER図](https://user-images.githubusercontent.com/57878514/109039495-335f5580-7710-11eb-9c32-ec196eb8eae5.png)
