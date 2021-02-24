@@ -50,25 +50,29 @@ $ curl -i -X GET http://0.0.0.0:8080/users/1
 DB設計（整備中）
 
 ### 正規化したテーブル
+「※」印を持つテーブルを「キー」とする。
+
 __▼ ユーザー__
-| __ユーザーID__ | メールアドレス | パスワード | 登録日 | Twitterアカウント情報 | 公開/非公開設定 |
+| ※ユーザーID | メールアドレス | パスワード | 登録日 | Twitterアカウント情報 | 公開/非公開設定 |
 | --- | --- | --- | --- | --- | --- |
 | kazuhe | kazuhe@example.com | 4a27b3ae456b0a3f7ae14e8d0b0847549b711859 | 2021-02-21 10:06:16.128659 | @kazuhe__ | true |
 | betty | betty@example.com | 789b49606c321c8cf228d17942608eff0ccc4171 | 2021-02-21 12:06:20.9751 | @kazuhe__ | false |
 
 __▼ ブックマーク__
-| __ユーザーID__ | __ブックマークID__ | URL | コメント | タグID | あとで読むフラグ |
+| ※ユーザーID | ※ブックマークID | URL | コメント | タグID | あとで読むフラグ |
 | --- | --- | --- | --- | --- | --- |
-| kazuhe | 1 | http://example1.com | コメント1 | T1 | true |
-| kazuhe | 2 | http://example2.com | コメント2 | T2 | false |
+| kazuhe | 1 | http://example1.com | コメント | T1 | true |
+| kazuhe | 2 | http://example2.com | コメント | T1 | false |
 | kazuhe | 2 | http://example2.com | | T2 | false |
-| betty | 1 | http://example3.com | コメント1 | T1 | true |
+| betty | 1 | http://example3.com | コメント | T1 | true |
+| betty | 2 | http://example4.com | | T1 | true |
 
 __▼ タグ__
-| __ユーザーID__ | __タグID__ | タグ |
+| ※ユーザーID | ※タグID | タグ |
 | --- | --- | --- |
 | kazuhe | T1 | develop |
 | kazuhe | T2 | life |
 | betty | T1 | life |
 
 ### ER図
+![Screen Shot 2021-02-24 at 23 32 48](https://user-images.githubusercontent.com/57878514/109015610-a6f56880-76f8-11eb-8416-62fff70985fb.png)
