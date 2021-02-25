@@ -47,16 +47,16 @@ $ curl -i -X GET http://0.0.0.0:8080/users/1
 ```
 
 ## Database design
-DB設計（整備中）
+DB設計
 
 ### 要件
-- ユーザーは自分専用のブックマークを任意個数作成できる
-- ユーザーは自分専用のタグを任意個数作成できる
-- ブックマークにタグを任意個数設定できる
+- ユーザーは自分専用のブックマークをn個数作成できる
+- ユーザーは自分専用のタグをn個数作成できる
+- ブックマークにタグをn個数設定できる
 - ユーザーはブックマークの公開or非公開を選択できる
 - ユーザー登録していないとブックマークもタグも作成することはできない
 
-### したテーブル
+### テーブル
 「※」印を持つテーブルを「主キー」とする。
 
 __▼ user__
@@ -90,4 +90,4 @@ __▼ bookmark_tag__
 | betty | 3f9ebf8d29sg | life |
 
 ### ER図
-![Bookmarks ER図](https://user-images.githubusercontent.com/57878514/109179839-a7136800-77cd-11eb-812f-56ef2fd8ee9d.png)
+<img src="https://user-images.githubusercontent.com/57878514/109179839-a7136800-77cd-11eb-812f-56ef2fd8ee9d.png" width="500" alt="bookmarks ER図">
