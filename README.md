@@ -49,39 +49,45 @@ $ curl -i -X GET http://0.0.0.0:8080/users/1
 ## Database design
 DB設計（整備中）
 
-### 正規化したテーブル
+### 要件
+- ユーザーは自分専用のブックマークを任意個数作成できる
+- ユーザーは自分専用のタグを任意個数作成できる
+- ブックマークにタグを任意個数設定できる
+- ユーザーはブックマークの公開or非公開を選択できる
+- ユーザー登録していないとブックマークもタグも作成することはできない
+
+### したテーブル
 「※」印を持つテーブルを「主キー」とする。
 
-__▼ ユーザー__
-| ※ユーザーID | メールアドレス | パスワード | 登録日 | Twitterアカウント情報 | 公開/非公開設定 |
-| --- | --- | --- | --- | --- | --- |
-| kazuhe | kazuhe@example.com | 4a27b3ae456b0a3f7ae14e8d0b0847549b711859 | 2021-02-21 10:06:16.128659 | @kazuhe__ | true |
-| betty | betty@example.com | 789b49606c321c8cf228d17942608eff0ccc4171 | 2021-02-21 12:06:20.9751 | @kazuhe__ | false |
+__▼ user__
+| ※user_id | name | email | password | created_at | twitter_id | is_public |
+| --- | --- | --- | --- | --- | --- | --- |
+| kazuhe | かずひ | kazuhe@example.com | 4a27b3ae456b0a3f7ae14e8d0b0847549b711859 | 2021-02-21 10:06:16.128659 | @kazuhe__ | true |
+| betty | Betty | betty@example.com | 789b49606c321c8cf228d17942608eff0ccc4171 | 2021-02-23 12:06:20.9751 | @betty0123 | false |
 
-__▼ ブックマーク__
-| ※ユーザーID | ※ブックマークID | URL | コメント | あとで読むフラグ |
+__▼ bookmark__
+| ※user_id | ※bookmark_id | url | comment | read_later |
 | --- | --- | --- | --- | --- |
-| kazuhe | B1 | http://example1.com | コメント | true |
-| kazuhe | B2 | http://example2.com | コメント | false |
-| kazuhe | B2 | http://example2.com | | false |
-| betty | B1 | http://example3.com | コメント | true |
-| betty | B2 | http://example4.com | | true |
+| kazuhe | 56e6c4c3c2f1 | http://example1.com | コメント | true |
+| kazuhe | 5f757f0e05ae | http://example2.com | コメント | false |
+| betty | fc809ffd0af0 | http://example3.com | コメント | true |
+| betty | 3f9ebf8d29sg | http://example4.com | NULL | true |
 
-__▼ タグ__
-| ※ユーザーID | ※タグID | タグ |
+__▼ tag__
+| ※user_id | ※tag_id | tag |
 | --- | --- | --- |
-| kazuhe | T1 | develop |
-| kazuhe | T2 | life |
-| betty | T1 | life |
+| kazuhe | develop | 開発 |
+| kazuhe | life | 生活 |
+| betty | life | 生活 |
 
-__▼ ブックマークタグ__
-| ※ユーザーID | ※タグID | ※ブックマークID |
+__▼ bookmark_tag__
+| ※user_id | ※bookmark_id | ※tag_id |
 | --- | --- | --- |
-| kazuhe | T1 | B1 |
-| kazuhe | T1 | B2 |
-| kazuhe | T2 | B2 |
-| betty | T1 | B1 |
-| betty | T1 | B2 |
+| kazuhe | 56e6c4c3c2f1 | develop |
+| kazuhe | 5f757f0e05ae | life |
+| kazuhe | 5f757f0e05ae | develop |
+| betty | fc809ffd0af0 | life |
+| betty | 3f9ebf8d29sg | life |
 
 ### ER図
-![Bookmarks ER図](https://user-images.githubusercontent.com/57878514/109039495-335f5580-7710-11eb-9c32-ec196eb8eae5.png)
+![Bookmarks ER図](https://user-images.githubusercontent.com/57878514/109179839-a7136800-77cd-11eb-812f-56ef2fd8ee9d.png)
