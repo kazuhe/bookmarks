@@ -1,11 +1,20 @@
 # bookmarks
 Bookmarks app
 
+## TODO
+- user登録時に既に存在するnameがPOSTされた場合はエラーを返却
+- 
+
 ## API Document(:tmp)
 APIドキュメント（整備中）
 
 ### ▼ Create User
-ユーザーを新規で登録する。
+下記リストの情報を元にユーザーを新規で登録する。
+- name: ユーザー名
+- email: メールアドレス
+- password: パスワード
+- twitter_id: ツイッターID
+- is_public: ブックマークの公開/非公開設定
 
 ENDPOINT:
 ```bash
@@ -19,11 +28,11 @@ $ curl \
   -X POST \
   -H "Content-Type: application/json" \
   http://0.0.0.0:8080/users/ \
-  -d '{"name": "kazuhe", "email": "kazuhe@example.com","password": "pass1234"}'
+  -d '{"name": "kazuhe", "email": "kazuhe@example.com", "password": "pass1234", "twitter_id": "@kazuhe__", "is_public": "1"}'
 ```
 
 ### ▼ Get User
-IDを使ってユーザーを取得する。
+Nameを使ってユーザーを取得する。
 
 ENDPOINT:
 ```bash
@@ -32,7 +41,7 @@ POST /v1/users/:id
 
 SAMPLE REQUEST:
 ```bash
-$ curl -i -X GET http://0.0.0.0:8080/users/1
+$ curl -i -X GET http://0.0.0.0:8080/users/kazuhe
 ```
 
 ```json
@@ -47,8 +56,6 @@ $ curl -i -X GET http://0.0.0.0:8080/users/1
 ```
 
 ## Database design
-DB設計
-
 ### 要件
 - ユーザーは自分専用のブックマークをn個数作成できる
 - ユーザーは自分専用のタグをn個数作成できる
@@ -57,9 +64,9 @@ DB設計
 - ユーザー登録していないとブックマークもタグも作成することはできない
 
 ### テーブル
-「※」印を持つテーブルを「主キー」とする。
+「※」印を持つテーブルを「主キー」とし、サンプルとしてテーブルに仮データを設定している。
 
-__▼ user__
+__▼ users__
 | ※user_id | name | email | password | created_at | twitter_id | is_public |
 | --- | --- | --- | --- | --- | --- | --- |
 | kazuhe | かずひ | kazuhe@example.com | 4a27b3ae456b0a3f7ae14e8d0b0847549b711859 | 2021-02-21 10:06:16.128659 | @kazuhe__ | true |

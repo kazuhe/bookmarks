@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"net/http/httputil"
 	"path"
-	"strconv"
 
 	"github.com/kazuhe/bookmarks/data"
 )
@@ -56,13 +55,14 @@ func handleRequest(w http.ResponseWriter, r *http.Request) {
 // handleGet GETリクエストに応じてユーザーを返す関数
 func handleGet(w http.ResponseWriter, r *http.Request) (err error) {
 	// URLのパスを抽出
-	id, err := strconv.Atoi(path.Base(r.URL.Path))
-	if err != nil {
-		return
-	}
+	// id, err := strconv.Atoi(path.Base(r.URL.Path))
+	name := path.Base(r.URL.Path)
+	// if err != nil {
+	// 	return
+	// }
 
-	// メソッドRetriveでidを元にDBの値を取得して構造体Userを作成
-	user, err := data.Retrive(id)
+	// メソッドRetriveでnameを元にDBの値を取得して構造体Userを作成
+	user, err := data.Retrive(name)
 	if err != nil {
 		return
 	}

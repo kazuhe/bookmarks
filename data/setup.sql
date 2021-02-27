@@ -1,10 +1,11 @@
 drop table users;
 
-create table users (
-  id         serial primary key,
-  uuid       varchar(64) not null unique,
-  name       varchar(255),
-  email      varchar(255) not null unique,
-  password   varchar(255) not null,
-  created_at timestamp not null   
+CREATE TABLE users (
+  user_id     VARCHAR(64) PRIMARY KEY,
+  name        VARCHAR(255),
+  email       VARCHAR(255) NOT NULL UNIQUE,
+  password    VARCHAR(255) NOT NULL,
+  created_at  TIMESTAMP NOT NULL,
+  twitter_id  VARCHAR(255) NOT NULL UNIQUE,
+  is_public   BOOLEAN
 );

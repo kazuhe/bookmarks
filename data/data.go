@@ -14,12 +14,13 @@ import (
 
 // User ユーザーを表す構造体
 type User struct {
-	ID        int       `json:"id"`
-	UUID      string    `json:"uuid"`
+	UserID    string    `json:"user_id"`
 	Name      string    `json:"name"`
 	Email     string    `json:"email"`
 	Password  string    `json:"password"`
 	CreatedAt time.Time `json:"created_at"`
+	TwitterID string    `json:"twitter_id"`
+	IsPublic  bool      `json:"is_public"`
 }
 
 // DB データベースへのハンドルであり、データベース接続のプールを表す
@@ -63,7 +64,7 @@ func Encrypt(plaintext string) (cryptext string) {
 // Create 新規ユーザーの登録
 func (user *User) Create() (err error) {
 	// SQLのプリペアドステートメント（レコード作成時に特定の値を当てはめることができる）の定義
-	statement := "insert into users (uuid, name, email, password, created_at) values ($1, $2, $3, $4, $5) returning id, uuid, created_at"
+	statement := "insert into users (user_id, name, email, password, created_at, twitter_id, is_public) values ($1, $2, $3, $4, $5, $6, $7) returning user_id, created_at"
 	// ステートメントをプリペアドステートメントとして作成するためにDB.Prepareに渡す
 	stmt, err := DB.Prepare(statement)
 	if err != nil {
@@ -73,15 +74,15 @@ func (user *User) Create() (err error) {
 
 	// プリペアドステートメントを実行
 	// 'QueryRow'で構造体sql.Row（最初の1つだけの）を返す, 'Scan'は行の中の値を引数にコピーする
-	// つまり、'user.Name'等をDBに保存した後にSQLクエリによって返されたidフィールドの値（DB側で生成される自動増分値）等を構造体Userにスキャンしている
-	err = stmt.QueryRow(createUUID(), user.Name, user.Email, Encrypt(user.Password), time.Now()).Scan(&user.ID, &user.UUID, &user.CreatedAt)
+	// つまり、'user.Name'等をDBに保存した後にSQLクエリによって返されたフィールドの値を構造体Userにスキャンしている
+	err = stmt.QueryRow(createUUID(), user.Name, user.Email, Encrypt(user.Password), time.Now(), user.TwitterID, user.IsPublic).Scan(&user.UserID, &user.CreatedAt)
 	return
 }
 
-// Retrive IDを元にDBから1件のUserを取得
-func Retrive(id int) (user User, err error) {
+// Retrive nameを元にDBから1件のUserを取得
+func Retrive(name string) (user User, err error) {
 	user = User{}
 	// SQLのselectコマンドを使って取得したデータ（id, content, author）をpostに参照渡し
-	err = DB.QueryRow("select id, uuid, name, email, password, created_at from users where id = $1", id).Scan(&user.ID, &user.UUID, &user.Name, &user.Email, &user.Password, &user.CreatedAt)
+	err = DB.QueryRow("select user_id, name, email, password, created_at, twitter_id, is_public from users where name = $1", name).Scan(&user.UserID, &user.Name, &user.Email, &user.Password, &user.CreatedAt, &user.TwitterID, &user.IsPublic)
 	return
 }
