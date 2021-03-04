@@ -27,7 +27,7 @@ $ curl \
   -i \
   -X POST \
   -H "Content-Type: application/json" \
-  http://0.0.0.0:8080/users/ \
+  http://0.0.0.0:8080/v1/users/ \
   -d '{"name": "kazuhe", "email": "kazuhe@example.com", "password": "pass1234", "twitter_id": "@kazuhe__", "is_public": "1"}'
 ```
 
@@ -36,22 +36,24 @@ Nameを使ってユーザーを取得する。
 
 ENDPOINT:
 ```bash
-POST /v1/users/:id
+GET /v1/users/:id
 ```
 
 SAMPLE REQUEST:
 ```bash
-$ curl -i -X GET http://0.0.0.0:8080/users/kazuhe
+$ curl -i -X GET http://0.0.0.0:8080/v1/users/kazuhe
 ```
 
+SAMPLE RESPONSE:
 ```json
 {
-  "id": 1,
-	"uuid": "0555868c-ec17-41c3-55dc-56e6c4c3c2f1",
+	"user_id": "fdf5588f-ed66-4d1a-4dfc-8383f90cb3c0",
 	"name": "kazuhe",
 	"email": "kazuhe@example.com",
-	"password": "4a27b3ae456b0a3f7ae14e8d0b0847549b711859",
-	"created_at": "2021-02-21T10:06:16.128659Z"
+	"password": "789b49606c321c8cf228d17942608eff0ccc4171",
+	"created_at": "2021-02-27T23:07:56.296096Z",
+	"twitter_id": "@kazuhe__",
+	"is_public": false
 }
 ```
 

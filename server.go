@@ -19,7 +19,7 @@ func main() {
 	// /users/へのリクエストをハンドラ関数'handleRequest'へリダイレクト
 	// 全てのハンドラ関数は第1引数に'ResponseWriter'をとり、
 	// 第2引数に'Request'をとるので改めて引数を渡す必要はない
-	http.HandleFunc("/users/", handleRequest)
+	http.HandleFunc("/v1/users/", handleRequest)
 	log.Println("start http listenig :8080")
 	server.ListenAndServe()
 }
@@ -75,6 +75,10 @@ func handleGet(w http.ResponseWriter, r *http.Request) (err error) {
 
 	// バイト列をResponseWriterに書き出す
 	w.Header().Set("Content-Type", "application/json")
+
+	// TODO 一時的に全てのオリジンからのアクセスを許可
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
 	w.Write(output)
 	return
 }
