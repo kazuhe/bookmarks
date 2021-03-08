@@ -103,6 +103,9 @@ func handlePost(w http.ResponseWriter, r *http.Request) (err error) {
 		return
 	}
 
+	// TODO 一時的に全てのオリジンからのアクセスを許可
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
 	// ステータス200を返す
 	w.WriteHeader(200)
 	return
