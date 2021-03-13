@@ -1,4 +1,4 @@
-package main
+package api
 
 import (
 	"encoding/json"
@@ -8,10 +8,10 @@ import (
 	"net/http/httputil"
 	"path"
 
-	"github.com/kazuhe/bookmarks/data"
+	"github.com/kazuhe/bookmarks/api/models"
 )
 
-func main() {
+func Run() {
 	server := http.Server{
 		Addr: ":" + "8080",
 	}
@@ -62,7 +62,7 @@ func handleGet(w http.ResponseWriter, r *http.Request) (err error) {
 	// }
 
 	// メソッドRetriveでnameを元にDBの値を取得して構造体Userを作成
-	user, err := data.Retrive(name)
+	user, err := models.Retrive(name)
 	if err != nil {
 		return
 	}
@@ -93,7 +93,7 @@ func handlePost(w http.ResponseWriter, r *http.Request) (err error) {
 	r.Body.Read(body)
 
 	// コンテンツ(JSON)を構造体Userに組み換える
-	var user data.User
+	var user models.User
 	json.Unmarshal(body, &user)
 
 	// メソッドCreateで構造体UserをDBに保存

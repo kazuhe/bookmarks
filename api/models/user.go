@@ -1,4 +1,4 @@
-package data
+package models
 
 import (
 	"crypto/rand"
@@ -6,11 +6,21 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"os"
 	"time"
+
+	"github.com/joho/godotenv"
 
 	// PostgreSQLのデータベースドライバ
 	_ "github.com/lib/pq"
 )
+
+func init() {
+	// .envから値をロード
+	if err := godotenv.Load(); err != nil {
+		log.Print("sad .env file found")
+	}
+}
 
 // User ユーザーを表す構造体
 type User struct {
@@ -31,7 +41,7 @@ func init() {
 	var err error
 
 	// 'sql.Open'は単にその後のDBへの接続に必要になる構造体を設定するだけでデータベースに接続する訳ではない
-	DB, err = sql.Open("postgres", "user=kazuhe dbname=bookmarks sslmode=disable")
+	DB, err = sql.Open(os.Getenv("DB_DRIVER"), "user=kazuhe dbname=bookmarks sslmode=disable")
 	if err != nil {
 		log.Fatalf("Error openig database: %q", err)
 	}
