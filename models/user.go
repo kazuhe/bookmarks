@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/joho/godotenv"
-	"github.com/kazuhe/bookmarks/api/utils"
+	"github.com/kazuhe/bookmarks/utils"
 
 	// PostgreSQLのデータベースドライバ
 	_ "github.com/lib/pq"

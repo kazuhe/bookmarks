@@ -8,7 +8,7 @@ import (
 	"net/http/httputil"
 	"path"
 
-	"github.com/kazuhe/bookmarks/api/models"
+	"github.com/kazuhe/bookmarks/models"
 )
 
 // UsersHandler リクエストを正しい関数に振り分けるためのハンドラ

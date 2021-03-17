@@ -5,6 +5,13 @@ Bookmarks app
 - user登録時に既に存在するnameがPOSTされた場合はエラーを返却
 - 
 
+## Development usage
+Building a local version
+
+```bash
+$ go build -o bookmarks cmd/bookmarks/main.go
+```
+
 ## API Document(:tmp)
 APIドキュメント（整備中）
 
