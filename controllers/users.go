@@ -14,6 +14,9 @@ import (
 // UsersHandler リクエストを正しい関数に振り分けるためのハンドラ
 func UsersHandler(w http.ResponseWriter, r *http.Request) {
 
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+
 	log.Println("UsersHandler()")
 
 	// 検証のためにリクエストに含まれる情報を出力
@@ -92,9 +95,6 @@ func handlePost(w http.ResponseWriter, r *http.Request) (err error) {
 		log.Println("Cannot created user", err)
 		return
 	}
-
-	// TODO 一時的に全てのオリジンからのアクセスを許可
-	w.Header().Set("Access-Control-Allow-Origin", "*")
 
 	// ステータス200を返す
 	w.WriteHeader(200)
